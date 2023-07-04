@@ -5,43 +5,58 @@ import { TodoList } from './components/TodoList';
 import { useTodo } from './hooks/useTodo';
 
 function App() {
-	const {
-		todos,
-		todosCount,
-		pendingTodosCount,
-		handleNewTodo,
-		handleDeleteTodo,
-		handleCompleteTodo,
-		handleUpdateTodo,
-	} = useTodo();
+  const {
+    todos,
+    todosCount,
+    pendingTodosCount,
+    handleNewTodo,
+    handleDeleteTodo,
+    handleCompleteTodo,
+    handleUpdateTodo,
+  } = useTodo();
 
-	return (
-		<>
-			<div className='card-to-do'>
-				<h1>Lista de tareas</h1>
-				<div className='counter-todos'>
-					<h3>
-						N° Tareas: <span>{todosCount}</span>
-					</h3>
-					<h3>
-						Pendientes: <span>{pendingTodosCount}</span>
-					</h3>
-				</div>
+  const [newTodo, setNewTodo] = useState("");
 
-				<div className='add-todo'>
-					<h3>Agregar Tarea</h3>
-					<TodoAdd handleNewTodo={handleNewTodo} />
-				</div>
+  return (
+    <>
+      <div className='card-to-do'>
+        <h1>Lista de tareas</h1>
+        <div className='counter-todos'>
+          <h3>
+            N° Tareas: <span>{todosCount}</span>
+          </h3>
+          <h3>
+            Pendientes: <span>{pendingTodosCount}</span>
+          </h3>
+        </div>
 
-				<TodoList
-					todos={todos}
-					handleUpdateTodo={handleUpdateTodo}
-					handleDeleteTodo={handleDeleteTodo}
-					handleCompleteTodo={handleCompleteTodo}
-				/>
-			</div>
-		</>
-	);
+        <div className='add-todo'>
+          <h3>Agregar Tarea</h3>
+          <TodoAdd handleNewTodo={handleNewTodo} />
+        </div>
+
+        <TodoList
+          todos={todos}
+          handleUpdateTodo={handleUpdateTodo}
+          handleDeleteTodo={handleDeleteTodo}
+          handleCompleteTodo={handleCompleteTodo}
+        />
+      </div>
+      <div className="new-todo">
+        <input
+          type="text"
+          placeholder="Nueva tarea"
+          value={newTodo}
+          onChange={(e) => setNewTodo(e.target.value)}
+        />
+        <button onClick={() => handleNewTodo({
+          id: todos.length + 1,
+          descripcion: newTodo,
+          completada: false
+        })}>Agregar</button>
+      </div>
+    </>
+  );
 }
 
 export default App;
